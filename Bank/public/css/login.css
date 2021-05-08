@@ -1,0 +1,45 @@
+body.signing-body {
+  
+}
+.container.signing-container{
+  margin-top: 4%;
+  margin-bottom: 4%;
+  
+}
+.card.signing-card{
+padding: 20px 0px 20px ;
+background-color: #bcbdbd;
+
+box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+
+
+
+}
+
+img.signing-img{
+  padding-bottom: 60px;
+ margin: auto;
+  display: block;
+  width: 60%;
+
+}
+
+form.signing-form{
+  max-width: 350px;
+  margin :auto;
+}
+
+button.signing-btn{
+color: #fff;
+background-color: black;
+width: 100%;
+margin-bottom: 1rem;
+}
+.register{
+ padding: 50px;
+ text-align: center;
+ color: rgb(54, 13, 238);
+ 
+}

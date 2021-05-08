@@ -1,0 +1,396 @@
+
+CREATE DATABASE Galaxy;
+
+
+use  Galaxy;
+
+Create table Bank(
+ID int not null,
+bankName varchar(25) not null,
+address varchar(50),
+primary key(ID)
+);                           
+                     
+create table Branch(
+ID int not null,
+bankID int not null, 
+Branch_Address varchar(50) not null,
+Primary Key (ID),
+unique (Branch_Address),
+FOREIGN KEY (bankID) REFERENCES Bank(ID) on update cascade on delete cascade
+);
+           						 
+                          
+Create Table Employee(
+ID int NOT NULL,
+Fname varchar(25) Not null,
+Mname varchar(25) Not null,
+Lname varchar(25) Not null,
+Email_address varchar(50) not null,
+Phone_num varchar(15) not null,
+Br_num int,
+Sex CHAR,
+Address varchar(50),
+Salary int,
+BDate date,
+Start_date date,
+Works_hours int,
+password varchar(255), 
+PRIMARY KEY (ID),
+Foreign Key(Br_num) References Branch(ID) on update cascade on delete set null,
+unique(Email_address),
+unique(Phone_num)
+);
+ALter table Bank add Mgr int;
+Alter Table Bank ADD FOREIGN KEY(Mgr)References Employee(ID) on update cascade on delete set null;
+ALTER TABLE Bank ADD UNIQUE (Mgr);
+ALter table Branch add Mgr int;
+Alter Table Branch ADD FOREIGN KEY(Mgr)References Employee(ID) on update cascade on delete set null;
+ALTER TABLE Branch ADD UNIQUE (Mgr);
+                         
+create table Customer(
+ID int NOT NULL,
+Fname varchar(25) Not null,
+Mname varchar(25) Not null,
+Lname varchar(25) Not null,
+Email_address varchar(50) not null,
+Phone_num varchar(15) not null,
+BDate date,
+Sex CHAR,
+signUP_date datetime,
+Address varchar(50),
+Salary int,
+Job varchar(25),
+Work_Name varchar(25),
+Work_Address varchar(50),
+password varchar(255), 
+PRIMARY KEY (ID),
+unique(Email_address),
+unique(Phone_num)
+);
+
+create table Account(
+ID int NOT NULL,
+Cust int not null,
+create_date datetime default now(),
+bank_id int not null,
+Amount float not null,
+PRIMARY KEY (ID),
+foreign key (Cust)references Customer(ID) on update cascade on delete cascade,
+foreign key (bank_id)references Bank(ID) on update cascade on delete cascade
+);
+
+create table Loan(
+bank_id int not null,
+cust_id int not null,
+Amount float not null,
+Create_date datetime default now(),
+primary key (Create_date, cust_id),
+foreign key (bank_id) references Bank(ID) on update cascade on delete cascade,
+FOREIGN KEY (CUST_ID) REFERENCES CUSTOMER(ID) on update cascade on delete cascade
+);
+
+CREATE TABLE DEBIT_CARD(
+DC_ID INT NOT NULL,
+Password varchar(255) NOT NULL,
+Create_date datetime default now(),
+acc_id int not null,
+bank_id int not null,
+primary key (DC_ID),
+foreign key (bank_id) references Bank(ID) on update cascade on delete cascade,
+FOREIGN KEY (acc_ID) REFERENCES ACCOUNT(ID) on update cascade on delete cascade
+);
+
+CREATE TABLE CREDIT_CARD(
+CC_ID INT NOT NULL,
+Password varchar(255) NOT NULL,
+Create_date datetime default now(),
+bank_id int not null,
+cust_id int not null,
+Amount float,
+EXPIRE_DATE date,
+primary key (CC_ID),
+foreign key (bank_id) references Bank(ID) on update cascade on delete cascade,
+FOREIGN KEY (CUST_ID) REFERENCES CUSTOMER(ID) on update cascade on delete cascade
+);
+
+CREATE TABLE ATM(
+ID int not null,
+Address varchar(50),
+bank_id int not null,
+Amount float,
+PRIMARY KEY (ID),
+foreign key (bank_id) references Bank(ID) on update cascade on delete cascade
+);
+
+CREATE TABLE DEPOSITS(
+ACC_ID int NOT NULL,
+Cust_ID int not null,
+Amount float,
+Dep_Date DATETIME default now(),
+primary key(ACC_ID, Cust_ID, Dep_Date),
+foreign key (ACC_ID) references Account(ID) on update cascade on delete cascade,
+foreign key (Cust_ID) references customer(ID) on update cascade on delete cascade
+);
+
+Create Table Withdraws(
+ACC_ID int NOT NULL,
+Cust_ID int not null,
+Amount float,
+Wit_Date DATETIME not null,
+Primary Key (ACC_ID, Cust_ID, Wit_Date),
+foreign key (ACC_ID) references Account(ID) on update cascade on delete cascade,
+foreign key (Cust_ID) references customer(ID) on update cascade on delete cascade
+);
+
+Create Table Transactions(
+Sender_ID int not null,
+Reciever_ID int not null,
+Amount float,
+trans_date DATETIME default now(),
+Primary key (Sender_ID, Reciever_ID, trans_date),
+foreign key (Sender_ID) references Account(ID) on update cascade on delete cascade,
+foreign key (Reciever_ID) references Account(ID) on update cascade on delete cascade
+);
+
+
+insert into Bank
+values
+(111111111,'Galaxy','Texas,US',null),
+(911111111,'Sun','New York,US',null),
+(811111111,'Universe','New Jersey,US',null),
+(711111111,'Capital','Florida,US',null);
+
+insert into Branch
+values
+(222222001,111111111,'San Antonio, TX',null),
+(222222002,111111111,'Burleson, TX',null),
+(222222003,111111111,'Garland, TX',null),
+(222222004,911111111,'New York',null),
+(222222005,811111111,'New Jersey',null),
+(222222006,111111111,'Texas',null),
+(222222007,711111111,'New Mexico',null),
+(222222008,911111111,'Alaska',null),
+(222222009,811111111,'Washington',null),
+(222222010,711111111,'Florida',null);
+
+insert into Employee
+values
+(123456789,'Marco','louis','josef','MarcLJ@gmail.com',01255896471,222222001,'M','731 Fondren, Houston, TX',30000,'1980-11-11','2000-3-20',20,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(333445555,'John','Boules','Smith','JohnBS@gmail.com',01148451315,222222004,'M','638 Voss, Houston, TX',45000,'1973-10-1','1995-7-12',27,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(453453453,'Franklin','Ted','Wong','FrankTW@gmail.com',01040845395,222222005,'M','5631 Rice, Houston, TX',20000,'1968-1-19','1990-8-26',26,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(666884444,'Joyce','Andrew','English','JoyceAE@gmail.com',01009566687,222222007,'F','975 Fire Oak, Humble, TX',70000,'1970-12-9','1982-3-7',32,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq');
+
+
+insert into Customer
+values
+(222222222,'Juan','Alice','Carlos','JuanAC@gmail.com',01225684523,'1990-5-5','F','2010-8-8','4 Birchpond Ave.Galveston, TX',50000,'Engineer','Google',' Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(333333333,'John','Bronu','Smith','JohnBS@gmail.com',01232222222,'1991-6-6','M','2011-9-9','891 Ann St.Spring, TX',30000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(444444444,'Mike','Bruin','Johnes','MikeBJ@gmail.com',01233222222,'1991-10-10','M','2011-10-10','6 East Bay Rd.Copperas Cove, TX',20000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(555555555,'David','Broun','Smith','DavidBS@gmail.com',01233322222,'1992-10-10','M','2012-10-10','891 Ann St.Spring, TX',25000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(666666666,'Emma','Susan','Watson','EmmaSW@gmail.com',01233332222,'1992-10-1','F','2012-10-1','90 Branch St.Pearland, TX',35000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(777777777,'Margaret','Scarlet','Smith','MargaretSS@gmail.com',01233333222,'1990-10-1','F','2010-10-1','402 Devon St.Arlington, TX',35000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(888888888,'Bob','Derek','Smith','BobDS@gmail.com',01233333322,'1980-10-1','M','2009-10-1','9837 Oxford St.Killeen, TX',53000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(999999999,'Charles','James','Smith','CharlesJS@gmail.com',01233333332,'1971-10-1','M','1991-10-1','9837 Oxford St.Killeen, TX',53000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111112,'Harry','Ron','Smith','HarryRS@gmail.com',01233333333,'1972-10-1','M','1992-10-1','7140 Edgefield StreetAustin, TX',45000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111113,'Henry','fon','Smith','HenryFS@gmail.com',01243333333,'1973-10-1','M','1993-10-1','9438 E. Inverness StreetCedar Hill, TX',45000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111114,'Mark','Park','Brown','MarkPB@gmail.com',01244333333,'1974-10-1','M','1994-10-1','863 SW. Thorne Dr.Missouri City, TX',40000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111115,'Paul','Daniel','Brown','PaulDB@gmail.com',01244433333,'1975-10-1','M','1995-10-1','9102 Bridle RoadHouston, TX',35000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111116,'Louis','Daniel','Lee','LoisDL@gmail.com',01244443333,'1976-10-1','M','1996-10-1','631 Yukon StreetDallas, TX',30000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111117,'Christian','Shablen','Sharl','ChristianSS@gmail.com',01244444333,'1977-10-1','M','1997-10-1','333 Clinton Ave.Houston, TX',38000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111118,'Mason','Sharly','Simon','MasonSS@gmail.com',01244444433,'1978-10-1','M','1998-10-1','9779 Amherst LaneArlington, TX',39000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111119,'Michael','Bishoy','Andrew','MichaelBA@gmail.com',01244444443,'1979-10-1','M','1999-10-1','9883 Oklahoma DrivePharr, TX',34000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111110,'Robert','Rupert','Rasendyl','RobertRR@gmail.com',01244444444,'1979-9-1','M','1999-9-1','224 Orchard StreetFort Worth, TX',33000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111120,'Rodelf','Rupert','Elfberg','RodelfRE@gmail.com',01254444444,'1979-8-1','M','1999-8-1','733 E. Country StreetHuntsville, TX',23000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111121,'Jonny','James','Carlos','JonnyJC@gmail.com',01255444444,'1979-7-1','M','1999-7-1','7185 Shore St.Houston, TX',22000,'Engineer','Microsoft','Texas', '$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq'),
+(111111122,'Parker','Peter','Pyne','ParkerPP@gmail.com',01255544444,'1979-6-1','M','1999-6-1','8447 Ridgeview LaneSan Antonio, TX ',21000,'Engineer','Microsoft','Texas','$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq');
+
+insert into Account
+values
+(111111123,222222222,'2010-8-8',111111111,500550),
+(111111124,333333333,'2011-9-9',111111111,1500500),
+(111111125,444444444,'2011-10-10',111111111,1580500),
+(111111126,555555555,'2012-10-10',111111111,2880500),
+(111111127,666666666,'2012-10-1',111111111,248500),
+(111111128,777777777,'2010-10-1',111111111,2465444),
+(111111129,888888888,'2009-10-1',111111111,15825945),
+(111111200,999999999,'1991-10-1',111111111,15825000),
+(111111201,111111112,'1992-10-1',111111111,12005000),
+(111111202,111111113,'1993-10-1',111111111,12002000),
+(111111203,111111114,'1994-10-1',111111111,12502000),
+(111111204,111111115,'1995-10-1',111111111,12502050),
+(111111205,111111116,'1996-10-1',111111111,800250),
+(111111206,111111117,'1997-10-1',111111111,3300900),
+(111111207,111111118,'1998-10-1',111111111,12502000),
+(111111208,111111119,'1999-10-1',111111111,1250500),
+(111111209,111111110,'1999-9-1',111111111,12500050),
+(111111210,111111120,'1995-8-1',111111111,552502050),
+(111111211,111111121,'1995-7-1',111111111,12502050),
+(111111212,111111122,'1995-6-1',111111111,12502050);
+
+insert into Loan
+values
+(111111111,222222222,500000,'2012-8-8'),
+(111111111,222222222,500000,'2012-10-8'),
+(111111111,333333333,50000,'2012-9-9'),
+(111111111,444444444,10000,'2012-10-10'),
+(111111111,444444444,15000,'2013-8-8'),
+(111111111,666666666,2000000,'2013-8-8'),
+(111111111,333333333,500000,'2012-10-8'),
+(111111111,666666666,1500,'2013-9-8'),
+(111111111,999999999,1000000,'2012-1-1'),
+(111111111,666666666,25000,'2014-8-8'),
+(111111111,999999999,5000,'2012-8-8'),
+(111111111,777777777,2000,'2012-10-1'),
+(111111111,888888888,3000,'2012-8-8'),
+(111111111,888888888,5000,'2013-8-8'),
+(111111111,777777777,10000,'2013-8-8'),
+(111111111,111111115,17000,'2000-8-8'),
+(111111111,111111115,30000,'2007-8-8'),
+(111111111,111111116,130000,'2012-8-8'),
+(111111111,111111110,400000,'2012-8-8'),
+(111111111,111111120,40000,'2012-8-8');
+
+insert into Debit_Card
+values
+(111111213,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2012-10-5',111111123,111111111),
+(111111214,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2012-10-5',111111124,111111111),
+(111111215,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2015-5-9',111111125,111111111),
+(111111216,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2016-9-10',111111126,111111111),
+(111111217,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2014-3-20',111111127,111111111),
+(111111218,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2015-4-15',111111128,111111111),
+(111111219,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2017-1-13',111111129,111111111),
+(111111220,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2020-1-1',111111200,111111111),
+(111111221,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2018-2-22',111111201,111111111),
+(111111222,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2019-6-23',111111202,111111111),
+(111111223,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2013-12-30',111111203,111111111),
+(111111224,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2014-7-11',111111204,111111111),
+(111111225,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2014-5-1',111111205,111111111),
+(111111226,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2017-7-7',111111206,111111111),
+(111111227,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2018-8-8',111111207,111111111),
+(111111228,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2019-9-9',111111208,111111111),
+(111111229,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2020-10-10',111111209,111111111),
+(111111230,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2020-2-2',111111210,111111111),
+(111111231,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2014-4-4',111111211,111111111),
+(111111232,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2015-5-5',111111212,111111111);
+
+insert into Credit_Card
+values
+(111111233,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2010-8-8',111111111,222222222,65000,'2020-8-8'),
+(111111234,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2011-9-9',111111111,333333333,56000,'2021-9-9'),
+(111111235,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2011-10-10',111111111,444444444,20000,'2021-9-9'),
+(111111236,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2012-10-10',111111111,555555555,9500,'2022-10-10'),
+(111111237,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2012-10-1',111111111,666666666,8000,'2022-10-1'),
+(111111238,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2010-10-1',111111111,777777777,7500,'2020-10-1'),
+(111111239,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2009-10-1',111111111,888888888,3000,'2019-10-1'),
+(111111240,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','1991-10-1',111111111,999999999,10000,'2001-10-1'),
+(111111241,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2000-3-1',111111111,111111112,2500,'2010-3-1'),
+(111111242,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2001-9-10',111111111,111111113,500000,'2011-9-10'),
+(111111243,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2002-1-8',111111111,111111114,100000,'2012-1-8'),
+(111111244,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2003-9-4',111111111,111111115,95000,'2013-9-4'),
+(111111245,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2004-1-26',111111111,111111116,90000,'2014-1-26'),
+(111111246,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2005-5-5',111111111,111111117,80000,'2015-5-5'),
+(111111247,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2003-3-3',111111111,111111118,78000,'2013-3-3'),
+(111111248,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2002-2-2',111111111,111111119,75000,'2012-2-2'),
+(111111249,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2005-11-11',111111111,111111110,60000,'2015-11-11'),
+(111111250,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2002-8-15',111111111,111111120,40000,'2012-8-15'),
+(111111251,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2000-10-10',111111111,111111121,50000,'2010-10-10'),
+(111111252,'$2b$04$o8mdNPVgWDggHnjQu5H4FunmKCvXTO3qYgJmiD2QN61TV0XDLfaqq','2000-6-6',111111111,111111122,550000,'2010-6-6');
+
+insert into ATM
+values
+(111111253,'9073 Gartner StreetDallas, TX',111111111,1500000),
+(111111254,'197 South Marlborough Ave.El Paso, TX',111111111,1500000),
+(111111255,'9221 Cedar St.Plano, TX',111111111,1500000),
+(111111256,'8890 New Saddle DriveDallas, TX',111111111,1500000),
+(111111257,'292 Homewood DrivePort Arthur, TX',911111111,1500000),
+(111111258,'413 South Dr.Friendswood, TX',911111111,1500000),
+(111111259,'104 West Beechwood St.Houston, TX',911111111,1500000),
+(111111260,'32 Lafayette Dr.El Paso, TX ',911111111,1500000),
+(111111261,'269 Lower River St.Austin, TX',811111111,1500000),
+(111111262,'5 Fairway StreetDayton, TX',811111111,1500000),
+(111111263,'8642 SW. Crescent DriveIrving, TX',811111111,1500000),
+(111111264,'9033 Marsh CircleOdessa, TX',811111111,1500000),
+(111111265,'309 Middle River LaneDenton, TX',711111111,1500000),
+(111111266,'9879 Country St.Dallas, TX',711111111,1500000),
+(111111267,'96 Aspen Ave.Dallas, TX',711111111,1500000),
+(111111268,'81 Studebaker LaneCorpus Christi, TX',711111111,1500000);
+
+insert into DEPOSITS
+values
+(111111123,222222222,1000,'2016-3-3'),
+(111111124,333333333,1500,'2015-9-12'),
+(111111125,444444444,2000,'2016-12-12'),
+(111111126,555555555,3000,'2015-9-9'),
+(111111127,666666666,4000,'2017-9-24'),
+(111111128,777777777,5000,'2019-9-24'),
+(111111129,888888888,6000,'2020-10-26'),
+(111111200,999999999,7000,'2013-1-31'),
+(111111201,111111112,8000,'2012-2-2'),
+(111111202,111111113,9000,'2012-12-16'),
+(111111203,111111114,20000,'2001-1-18'),
+(111111204,111111115,10000,'2011-1-1'),
+(111111205,111111116,11000,'2001-1-8'),
+(111111206,111111117,12000,'2004-1-8'),
+(111111207,111111118,13000,'2000-10-26'),
+(111111208,111111119,14000,'1999-1-31'),
+(111111209,111111110,15000,'2009-9-24'),
+(111111210,111111120,16000,'2005-5-8'),
+(111111211,111111121,17000,'2000-3-4'),
+(111111212,111111122,18000,'2003-4-1');
+
+insert into Withdraws
+values
+(111111123,222222222,500,'2017-3-3'),
+(111111124,333333333,500,'2016-9-12'),
+(111111125,444444444,1000,'2017-12-12'),
+(111111126,555555555,1000,'2016-9-9'),
+(111111127,666666666,2000,'2019-9-24'),
+(111111128,777777777,3000,'2020-9-24'),
+(111111129,888888888,3000,'2020-12-26'),
+(111111200,999999999,3000,'2014-1-31'),
+(111111201,111111112,4000,'2013-2-2'),
+(111111202,111111113,4000,'2013-12-16'),
+(111111203,111111114,5000,'2005-1-18'),
+(111111204,111111115,9000,'2012-1-1'),
+(111111205,111111116,1000,'2002-1-8'),
+(111111206,111111117,1000,'2005-1-8'),
+(111111207,111111118,3000,'2003-10-26'),
+(111111208,111111119,4000,'2000-1-31'),
+(111111209,111111110,5000,'2012-9-24'),
+(111111210,111111120,6000,'2015-5-8'),
+(111111211,111111121,7000,'2003-3-4'),
+(111111212,111111122,8000,'2005-4-1');
+
+insert into Transactions
+values
+(111111123,111111124,100,'2017-4-4'),
+(111111124,111111123,100,'2017-5-5'),
+(111111125,111111126,1000,'2018-1-1'),
+(111111126,111111125,1000,'2018-2-2'),
+(111111127,111111128,1000,'2020-10-1'),
+(111111128,111111127,1000,'2020-10-10'),
+(111111129,111111200,1000,'2020-12-27'),
+(111111200,111111129,1000,'2020-12-30'),
+(111111201,111111202,1000,'2015-1-1'),
+(111111202,111111201,1000,'2015-2-2'),
+(111111203,111111204,1000,'2013-1-1'),
+(111111204,111111203,1000,'2013-2-2'),
+(111111205,111111206,1000,'2003-1-1'),
+(111111206,111111205,1000,'2003-2-2'),
+(111111207,111111208,1000,'2004-1-1'),
+(111111208,111111207,1000,'2004-2-2'),
+(111111209,111111210,1000,'2016-1-1'),
+(111111210,111111209,1000,'2016-2-2'),
+(111111211,111111212,1000,'2006-1-1'),
+(111111212,111111211,1000,'2006-2-2');
+
+
+update Bank set Mgr = 123456789		where ID = 111111111;
+update Bank set Mgr = 333445555		where ID = 911111111;
+update Bank set Mgr = 453453453		where ID = 811111111;
+update Bank set Mgr = 666884444		where ID = 711111111;
+
+
+
+

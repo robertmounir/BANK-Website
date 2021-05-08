@@ -1,0 +1,78 @@
+<%- include('layouts/header') %>
+  <body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand text-primary  " href="/customer"><h5 >  <%= username %></h5></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav" >
+              <ul class="navbar-nav">
+                <li class="nav-item ">
+                  <a class="nav-link" href="/bank">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/customerdeposite">Deposit </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customerWithdraw">Withdraw </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customerTransaction">Transaction </a>
+                  </li>
+                  
+                   <li class="nav-item active">
+                    <a class="nav-link" href="/customerCheck">Check My account </a>
+                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customerloan">Take a loan </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customercreditcard">Make a credit card </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customerdepitcard">Make a debit card </a>
+                  </li>
+                
+                  <div class="col">
+                </ul>
+              </div>
+     
+            </div>
+          </nav>
+
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container-fluid text-center">
+              <h2 class="display-4">Welcome, <%= username %></h2>
+              
+            </div>
+          </div>
+          
+          <div class="col">
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Account ID</th>
+                <th scope="col">Customer ID</th>
+                <th scope="col">Bank Name</th>
+                <th scope="col">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.forEach(function(item){ %>
+              <tr>
+                <th scope="row">1</th>
+                <td><%= item.ID %></td>
+                <td><%= item.Cust %></td>
+                <td><%= item.bankName %></td>
+                <td><%= item.Amount %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          </div>
+    </div>
+
+ 
+<%- include('layouts/footer') %>

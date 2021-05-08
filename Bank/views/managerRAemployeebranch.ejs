@@ -1,0 +1,107 @@
+<%- include('layouts/header') %>
+
+<body>
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand text-primary  " href="/manager">
+        <h5><%= username %></h5>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item ">
+            <a class="nav-link" href="/bank">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/manageraddemployee">Add employee </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/managerremoveemployee">Remove employee </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/managerRAemployeebranch">Remove/Add employee from/to a branch </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/managerraise">Assign a pay raise </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/Managerialstatistics">Managerial Statistics </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/withdraw">Detailed Reports </a>
+      </li>
+
+        </ul>
+      </div>
+
+    </div>
+
+    </nav>
+
+    <%- messages('partials/my_message_template') %>
+    <% if (typeof errors !=='undefined' ) { %>
+      <% errors.forEach(error=> { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            <%= error.msg %>
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <% }); %>
+          <% } %>
+
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container-fluid text-center">
+        <h2 class="display-4">GALAXY BANK
+        </h2>
+
+      </div>
+    </div>
+
+
+    <div class="container ">
+      <form novalidate action="/managerRAemployeebranch" method="POST">
+        <div class="form-row">
+  
+          <label  class="col-sm-3 col-form-label col-form-label-lg"><h4>ID of the employee</h4></label>
+          <div class="col-sm-10 col-md-4 mb-5">
+            <input type="text" class="form-control form-control-lg"  placeholder="ID Number" name = "EID">
+          </div>
+         
+  
+        </div>
+        <div class="form-row">
+  
+          <label  class="col-sm-3 col-form-label col-form-label-lg"><h4>ID of the branch</h4></label>
+          <div class="col-sm-10 col-md-4 mb-5">
+            <input type="text" class="form-control form-control-lg"  placeholder="ID Number" name = "BID">
+          </div>
+         
+  
+        </div>
+        
+        <div class="form-row">
+  
+          <div class="form-group  col-sm-10 col-md-4 mb-5 ">
+            <button type="submit"   class="btn btn-success  btn-lg " value="A" name ="btn" > Add Employee to the Branch </button>
+          </div>
+          <div class="form-group  col-sm-10 col-md-4 mb-5 ">
+            <button type="submit"   class="btn btn-danger  btn-lg " value="R" name ="btn" > Remove Employee from the Branch</button>
+          </div>
+  
+  
+        </div>
+        
+      </form>
+      </div>
+
+  </div>
+
+
+  <%- include('layouts/footer') %>

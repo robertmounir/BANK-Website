@@ -1,0 +1,111 @@
+<%- include('layouts/header') %>
+
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand text-primary   " href="/employee">
+                    <h5>
+                        <%= username %>
+                    </h5>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/bank">Home <span class="sr-only">(current)</span></a>
+                        </li>
+            
+                            <li class="nav-item active">
+                            <a class="nav-link" href="/employeeCreateaccount">Create account </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/employeeCloseaccount">Close account </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/employeedeletecreditcard">Delete credit card </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/employeedeletedebitcard">Delete debit card  </a>
+                      </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/employeeTransactions">Transactions </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/employeeGiveloan">Give a loan </a>
+                        </li>
+                      
+
+                    </ul>
+
+                </div>
+
+            </nav>
+
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container-fluid text-center">
+                    <h2 class="display-4">Welcome, <%= username %>
+                    </h2>
+
+                </div>
+            </div>
+
+            <%- messages('partials/my_message_template') %>
+    <% if (typeof errors !=='undefined' ) { %>
+      <% errors.forEach(error=> { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            <%= error.msg %>
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <% }); %>
+          <% } %>
+
+    <div class="container ">
+    <form novalidate action="/employeeCreateaccount" method="POST">
+
+      <div class="form-row">
+        <label  class="col-sm-3 col-form-label col-form-label-lg"><h4>Account ID</h4></label>
+        <div class="col-sm-10 col-md-4 mb-5 ">
+          <input type="text" class="form-control form-control-lg"  placeholder="Account ID" name = "AID">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label  class="col-sm-3 col-form-label col-form-label-lg"><h4>Customer ID</h4></label>
+        <div class="col-sm-10 col-md-4 mb-5 ">
+          <input type="text" class="form-control form-control-lg"  placeholder="Customer ID" name = "CID">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label  class="col-sm-3 col-form-label col-form-label-lg"><h4>Amount of Money </h4></label>
+        <div class="col-sm-10 col-md-4 mb-5">
+          <input type="text" class="form-control form-control-lg"  placeholder="Money" name = "Money">
+        </div>
+      </div>
+      
+      <div class="form-row">
+
+        <div class="form-group  col-sm-10 col-md-4 mb-5 mx-auto ">
+       
+          <button type="submit"   class="btn btn-primary  btn-lg " >Create Account</button>
+        </div>
+      
+
+      </div>
+      
+    </form>
+
+
+    </div>
+
+
+        <%- include('layouts/footer') %>

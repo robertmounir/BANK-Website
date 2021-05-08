@@ -1,0 +1,161 @@
+<%- include('layouts/header') %>
+
+<body>
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand text-primary  " href="/bankmgr">
+        <h5><%= username %></h5>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/bank">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/bankmgrAddemployee">Add Employee </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/bankmgrAddmanager">Add Manager </a>
+          </li>
+  
+        
+
+        </ul>
+      </div>
+
+    </div>
+
+    </nav>
+    <%- messages('partials/my_message_template') %>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container-fluid text-center">
+        <h2 class="display-4">Welcome, <%= username %>
+        </h2>
+
+      </div>
+    </div>
+
+    <div class="container ">
+      <form method="post">
+        <div class="row">
+
+
+          <div class="col-md-6 ">
+            <div class="profile-head">
+
+              <ul class="nav nav-tabs ">
+                <li  class="nav-item ">
+                 <h2 class="blue"> Basic info</h2>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row h4">
+          <div class="col-md-8">
+
+            
+              <div class="row">
+                
+                <div class="col-md-6">
+                  <label> </label>
+
+                </div>
+                <div class="col-md-6">
+                </div>
+              </div>
+              <div class="row">
+                
+                <div class="col-md-6">
+                  <label>User ID :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= ID %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Name :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= username %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Email :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= Email %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Phone :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= PhoneNo %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Birthday Date :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= BDate %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Address :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= Address %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Branch Number :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= Branch %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Work Hours :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= hours %></p>
+                </div>
+              </div>
+            
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Salary :</label>
+                </div>
+                <div class="col-md-6">
+                  <p><%= Salary %></p>
+                </div>
+              </div>
+            
+           
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container"><a class="btn btn-outline-primary" href="/bankmgrchangepassword" role="button">Change PassWord</a></div>
+  </div>
+
+
+  <%- include('layouts/footer') %>
